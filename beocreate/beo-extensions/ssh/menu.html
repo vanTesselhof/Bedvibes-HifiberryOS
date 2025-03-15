@@ -1,0 +1,29 @@
+<div class="menu-screen" id="ssh" data-icon="terminal.svg" data-menu-title="Remote Login" data-context="general-settings/services">
+	
+	<header>
+		<div class="back-button master"></div>
+		<h1>Remote Login</h1>
+	</header>
+	
+	<div class="scroll-area">
+		<div class="menu-content">
+			<p>Remote login (SSH) allows connecting to the sound system from command line for tinkering or troubleshooting.</p>
+			<div class="menu-item toggle" id="ssh-enabled-toggle" onclick="ssh.toggleEnabled();">
+				<div class="menu-label">Remote Login On</div>
+				<div class="menu-toggle"></div>
+			</div>
+			<hr>
+			<div class="button pill grey" id="ssh-change-password-button" onclick="ssh.changePassword(0);">Change Password...</div>
+			<p class="warning margin-top" id="ssh-password-change-notice">Password has not been changed. Change it to protect your sound system. Default password is <strong>hifiberry</strong>.</p>
+			
+			<div id="ssh-connect-instructions" class="hidden">
+				<h2>How to connect</h2>
+				<p>Use your SSH application of choice. Connect with hostname (<span class="system-name-static">hostname</span>.local) or <a href="#" onclick="beo.showExtension('network');">IP address</a> and user name <strong>root</strong>.</p>
+				<p>Example: ssh root@<span id="ssh-example-address">address</span></p>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8" src="€/ssh-client.js"></script>

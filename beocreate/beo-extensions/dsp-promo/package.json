@@ -1,0 +1,24 @@
+{
+  "name": "@beocreate/create-dsp-promo",
+  "version": "0.1.0",
+  "description": "Information on HiFiBerry DSP boards",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/bang-olufsen/create"
+  },
+  "keywords": [
+    "dsp",
+    "sound",
+    "hifiberry",
+    "equalizer"
+  ],
+  "author": "HiFiBerry",
+  "license": "MIT",
+  "beocreate": {
+     "rejectCardFeatures": ["dsp"]
+  }
+}
