@@ -1,0 +1,254 @@
+<div class="menu-screen" id="room-compensation" data-icon="arc.svg" data-menu-title="Room Compensation" data-menu-class="advanced-adjustment" data-built-in="1" data-context="sound/advanced" data-stylesheet="room-compensation.css" data-namespace="room_compensation" data-sort-as="arc">
+	<header>
+		<div class="back-button master"></div>
+		<h1>Room Compensation</h1>
+	</header>
+
+
+	<div class="scroll-area">
+		<div class="menu-content">
+			<p>Adapt the speakers to your listening space to improve sound. <a href="#" onclick="beo.ask('room-compensation-intro-prompt');">Learn more.</a></p>
+			
+
+			<div class="menu-item checkmark left icon checked disabled" id="room-compensation-off" onclick="room_compensation.applyCompensation(true);">
+				<div class="menu-icon left" style="-webkit-mask-image: url(common/symbols-black/checkmark.svg); mask-image: url(common/symbols-black/checkmark.svg);"></div>
+				<div class="menu-label">Off</div>
+			</div>
+			<div id="room-compensation-presets">
+			
+			</div>
+			<div class="button pill black" onclick="room_compensation.newCompensation();">New Room Compensation...</div>
+			
+			<h2 id="room-compensation-measurements-title" class="hidden">Measurements</h2>
+			<div id="room-compensation-measurements">
+			
+			</div>
+			<hr>
+			<p class="privacy margin-top">Room compensation presets are created on HiFiBerry servers based on measurement data. No audio is sent.</p>
+			<p class="experiment">This feature is experimental.</p>
+		</div>
+	</div>
+	
+	
+	<div class="popup-content hidden" id="room-compensation-measurement-assistant">
+		<header class="popup transparent opaque-scroll top-hide-title">
+			<div class="button symbol left" onclick="room_compensation.cancelMeasurement();" style="-webkit-mask-image: url(common/symbols-black/close.svg); mask-image: url(common/symbols-black/close.svg);"></div>
+			<h1>Room Measurement</h1>
+			
+		</header>
+		<div class="scroll-area" id="room-measurement-wizard">
+			<div id="room-measurement-waiting-for-microphone">
+				<div class="header-image-wrap">
+					<div class="header-image" style="background-image: url(€/measurement-mic.png); background-size: cover;"></div>
+				</div>
+				<div class="menu-content">
+					<h1>Connect microphone</h1>
+					<p class="margin-top">Connect a measurement microphone to the USB port on the Raspberry Pi.</p>
+					<p class="loading">Waiting for microphone...</p>
+				</div>
+			</div>
+			
+			<div id="room-measurement-position-microphone">
+				<div class="header-image-wrap">
+					<div class="header-image" style="background-image: url(€/measurement-mic-upright.png); background-size: cover;"></div>
+				</div>
+				<div class="menu-content">
+					<h1>Position microphone</h1>
+					<p class="success margin-top"><span class="connected-microphone"></span> connected.</p>
+					<p class="margin-top">Place the microphone at the listening position, upright, roughly at ear height. Keep it still during measurement.</p>
+					
+				</div>
+			</div>
+			
+			<div id="room-measurement-set-volume">
+				<div class="header-image-wrap" style="flex-direction: column;">
+					<div id="room-measurement-level-meter">
+						<div id="room-measurement-current-level"><span>x</span> dB SPL</div>
+						<div class="progress">
+							<div class="progress-fill" id="room-measurement-current-level-fill"></div>
+						</div>
+						<div id="room-measurement-passable-level">
+							<div></div>
+							<span class="lower">65</span>
+						</div>
+						<div id="room-measurement-recommended-level">
+							<div></div>
+							<span class="lower">75</span>
+						</div>
+					</div>
+				</div>
+				<div class="menu-content">
+					<h1>Adjust volume</h1>
+					
+					<div class="slider-wrap">
+						<div class="symbol" style="-webkit-mask-image: url(common/symbols-black/volume-mute.svg); mask-image: url(common/symbols-black/volume-mute.svg);"></div>
+						<div class="master-volume-slider black"></div>
+						<div class="symbol" style="-webkit-mask-image: url(common/symbols-black/volume.svg); mask-image: url(common/symbols-black/volume.svg);"></div>
+					</div>
+					
+					<p class="margin-top">To minimise the effect of background noise during measurement, adjust volume until the indicator reaches dark blue. You can also measure at lower volume, but the results may be less accurate.</p>
+				</div>
+			</div>
+		</div>
+		
+		<footer>
+			<div class="button pill black disabled" id="room-compensation-measurement-assistant-button" onclick="room_compensation.nextStep('measurement');">Microphone Positioned</div>
+		</footer>
+	</div>
+	
+	
+	<div class="popup-content hidden" id="room-compensation-measurement-preview">
+		<header class="popup">
+			<div class="button symbol left" onclick="room_compensation.showMeasurement();" style="-webkit-mask-image: url(common/symbols-black/close.svg); mask-image: url(common/symbols-black/close.svg);"></div>
+			<h1>Measurement</h1>
+			<div class="button symbol right setup-hide" onclick="room_compensation.deleteMeasurement();" style="-webkit-mask-image: url(common/symbols-black/delete.svg); mask-image: url(common/symbols-black/delete.svg);"></div>
+		</header>
+		<div class="scroll-area">
+			<div class="header-image-wrap" id="room-measurement-graph">
+				
+			</div>
+			<div class="menu-content">
+				<div class="room-measurement-information centre">
+					<h1>Measurement</h1>
+				</div>
+				<hr>
+				<p class="success margin-top hidden" id="room-measurement-complete">Room measurement is complete. Select New Room Compensation to continue.</p>
+				<div class="room-measurement-details">
+					
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="button pill black" onclick="room_compensation.newCompensation();">New Room Compensation...</div>
+		</footer>
+	</div>
+		
+	<div class="popup-content hidden" id="room-compensation-preview">
+		<header class="popup">
+			<div class="button symbol left" onclick="room_compensation.showCompensation();" style="-webkit-mask-image: url(common/symbols-black/close.svg); mask-image: url(common/symbols-black/close.svg);"></div>
+			<h1>Room Compensation</h1>
+			<div class="button symbol right setup-hide" onclick="room_compensation.deleteCompensation();" style="-webkit-mask-image: url(common/symbols-black/delete.svg); mask-image: url(common/symbols-black/delete.svg);"></div>
+		</header>
+		<div class="scroll-area">
+			<div class="header-image-wrap" id="room-compensation-graph">
+				
+			</div>
+			<div class="menu-content">
+				<div class="room-compensation-information centre">
+					<h1>Compensation</h1>
+					<p>Type</p>
+				</div>
+				<hr>
+				<div class="room-compensation-details">
+					
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="button pill black" onclick="room_compensation.applyCompensation();">Use This Preset</div>
+		</footer>
+	</div>	
+		
+	
+	<div class="ask-menu" id="replace-room-measurement-prompt">
+		<h2>Replace existing measurement?</h2>
+		<p>A measurement with the same file name already exists. Would you like to replace it?</p>
+		<div class="ask-buttons">
+			<div class="button pill grey" onclick="room_compensation.replaceExisting(true);">Replace</div>
+			<div class="button pill black cancel default" onclick="room_compensation.replaceExisting(false);">Don't Replace</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="delete-room-measurement-prompt">
+		<h2>Remove measurement <span class="ask-dynamic-0">measurement name</span>?</h2>
+		<p>Removing this measurement will also remove any presets that have been created from it. This can't be undone.</p>
+		<div class="ask-buttons">
+			<div class="button pill grey" onclick="room_compensation.deleteMeasurement(true);">Remove Measurement</div>
+			<div class="button pill black cancel default" onclick="beo.ask();">Don't Remove</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="select-measurements-prompt">
+		<h2>New room compensation preset</h2>
+		<p>Select a measurement to use for the new preset.</p>
+		<div id="room-measurement-chooser">
+		
+		</div>
+		<div class="ask-buttons">
+			<div class="button pill black" onclick="room_compensation.newMeasurement();">New Measurement...</div>
+			<div class="button pill grey cancel" onclick="beo.ask();">Cancel</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="room-compensation-type-prompt">
+		<h2>Compensation type</h2>
+		<p>Select the type of room compensation to apply.</p>
+		<div id="room-compensation-types">
+		
+		</div>
+		<div class="ask-buttons">
+			<div class="button pill grey cancel" onclick="beo.ask();">Cancel</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="room-compensation-confirmation-prompt">
+		<h2>Apply room compensation?</h2>
+		<p>Custom filters in Sound Design equaliser will be removed before applying room compensation.</p>
+		<div class="ask-buttons">
+			<div class="button pill black default" onclick="beo.askOption(0);">Remove and Apply</div>
+			<div class="button pill grey cancel" onclick="beo.ask();">Cancel</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="delete-room-compensation-prompt">
+		<h2>Remove preset <span class="ask-dynamic-0">preset name</span>?</h2>
+		<div class="ask-buttons">
+			<div class="button pill grey" onclick="room_compensation.deleteCompensation(true);">Remove Preset</div>
+			<div class="button pill black cancel default" onclick="beo.ask();">Don't Remove</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="delete-current-room-compensation-prompt">
+		<h2>Remove preset <span class="ask-dynamic-0">preset name</span>?</h2>
+		<p>Removing this preset will turn off room compensation.</p>
+		<div class="ask-buttons">
+			<div class="button pill grey" onclick="room_compensation.deleteCompensation(true);">Remove Preset</div>
+			<div class="button pill black cancel default" onclick="beo.ask();">Don't Remove</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="room-compensation-intro-prompt">
+		<h2>How it works</h2>
+		<p>Room compensation records test signals with a microphone to determine how sound from the speakers is changed by the listening room.</p>
+		<p>These measurements are then used to create compensation filters to counteract the effects of the room.</p>
+		<h2>What you need</h2>
+		<ul>
+			<li>For the measurements, a USB measurement microphone</li>
+			<li>To use compensation filters, a DSP-enabled sound card (such as Beocreate 4-Channel Amplifier or DAC+ DSP)</li>
+		</ul>
+		<div class="ask-buttons">
+			<div class="button pill black cancel default" onclick="beo.ask();">Dismiss</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="room-compensation-dsp-required-prompt">
+		<h2>DSP needed</h2>
+		<p>To use room compensation filters, a sound device with DSP is required (such as DAC+ DSP or Beocreate 4-Channel Amplifier).</p>
+		<div class="ask-buttons">
+			<a href="http://hifiberry.com/shop" target="_blank" class="button pill grey">View Products in Shop</a>
+			<div class="button pill black cancel default" onclick="beo.ask();">Dismiss</div>
+		</div>
+	</div>
+	
+	<div class="ask-menu" id="room-compensation-dsp-problem-prompt">
+		<h2>Problem with sound processor</h2>
+		<p>Room compensation filters can't be used because there is a problem with the current DSP program. Known sampling rate and support for parametric equaliser (Sound Design) are required.</p>
+		<p>In the DSP Programs menu, please check which program is active and, if necessary, install the default DSP program for your sound device. Then try again.</p>
+		<div class="ask-buttons">
+			<div class="button pill black default" onclick="room_compensation.goToDSPPrograms();">Show DSP Programs</div>
+			<div class="button pill grey cancel" onclick="beo.ask();">Dismiss</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8" src="€/room-compensation-client.js"></script>

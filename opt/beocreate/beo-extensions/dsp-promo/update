@@ -1,0 +1,15 @@
+#!/bin/bash
+HOST=$1
+if [ "$HOST" == "" ]; then
+ HOST=192.168.30.134
+fi
+
+echo "Updating $HOST"
+
+echo Copying files
+sshpass -p hifiberry scp -r ./* root@$HOST:/opt/beocreate/beo-extensions/dsp-promo
+echo "Restarting Beocreate2"
+sshpass -p hifiberry ssh root@$HOST systemctl restart beocreate2
+echo "Tail log"
+sshpass -p hifiberry ssh root@$HOST journalctl -n 30 -f -u beocreate2
+
